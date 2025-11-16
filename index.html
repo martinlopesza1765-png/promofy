@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promofy - Promoción de Locales en Los Mochis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff6b6b;
+            --accent: #6bffa0;
+            --dark: #333;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Mejorado */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border-radius: 25px;
+            border: 1px solid #e9ecef;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5bef;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ff5a5a;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .hero .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: var(--gray);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Secciones */
+        section {
+            padding: 80px 0;
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2rem;
+            color: var(--dark);
+        }
+
+        /* Panel de Negocios */
+        .business-panel {
+            display: none;
+        }
+
+        .business-panel.active {
+            display: block;
+        }
+
+        .search-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .business-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .business-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .business-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .business-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .business-image.default {
+            background: linear-gradient(45deg, #4a6bff, #6bffa0);
+        }
+
+        .business-info {
+            padding: 20px;
+        }
+
+        .business-info h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .business-type {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .business-description {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .business-address {
+            color: var(--gray);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .business-contact {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Formularios */
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-input {
+            padding: 8px !important;
+        }
+
+        .image-preview {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .image-preview img {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 5px;
+            border: 2px solid #ddd;
+        }
+
+        .form-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .form-option.selected {
+            border-color: var(--primary);
+            background-color: rgba(74, 107, 255, 0.1);
+        }
+
+        .form-option input {
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .footer-column {
+            flex: 1;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #ccc;
+        }
+
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .register-form {
+            display: none;
+        }
+
+        .register-form.active {
+            display: block;
+        }
+
+        .login-form {
+            display: none;
+        }
+
+        .login-form.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-section {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero .container {
+                flex-direction: column;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .auth-buttons {
+                margin-top: 15px;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .business-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Mejorado -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <!-- Logo y Navegación a la izquierda -->
+                <div class="nav-section">
+                    <div class="logo">
+                        <h1>Promofy</h1>
+                    </div>
+                    <ul class="nav-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#negocios" class="business-link">Negocios</a></li>
+                        <li><a href="#registro" class="register-link">Registrarse</a></li>
+                    </ul>
+                </div>
+
+                <!-- Botones de Auth a la derecha -->
+                <div class="nav-section">
+                    <div class="auth-buttons" id="auth-buttons">
+                        <a href="#login" class="btn btn-outline">Iniciar Sesión</a>
+                        <a href="#registro" class="btn btn-primary">Registrarse</a>
+                    </div>
+                    <div class="user-info" id="user-info" style="display: none;">
+                        <div class="user-avatar" id="user-avatar">U</div>
+                        <span id="user-name-display">Usuario</span>
+                        <button class="btn btn-outline btn-sm" onclick="logout()">Cerrar Sesión</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Promociona tu negocio en Los Mochis</h1>
+                <p>Conecta con más clientes y haz crecer tu negocio local. Promofy es la plataforma ideal para dar a conocer tu establecimiento en Los Mochis, Sinaloa.</p>
+                <div class="hero-buttons">
+                    <a href="#registro" class="btn btn-primary">Registrar Negocio</a>
+                    <a href="#negocios" class="btn btn-secondary">Explorar Negocios</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Los Mochis ciudad">
+            </div>
+        </div>
+    </section>
+
+    <!-- Panel de Negocios -->
+    <section id="negocios" class="business-panel">
+        <div class="container">
+            <h2>Negocios en Los Mochis</h2>
+            
+            <div class="search-section">
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Buscar negocios por nombre, tipo o dirección...">
+                    <button class="btn btn-primary" onclick="searchBusinesses()">Buscar</button>
+                </div>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <select id="category-filter">
+                            <option value="">Todas las categorías</option>
+                            <option value="restaurante">Restaurantes</option>
+                            <option value="cafe">Cafeterías</option>
+                            <option value="tienda">Tiendas</option>
+                            <option value="servicio">Servicios</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select id="location-filter">
+                            <option value="">Todas las zonas</option>
+                            <option value="centro">Centro</option>
+                            <option value="norte">Zona Norte</option>
+                            <option value="sur">Zona Sur</option>
+                            <option value="este">Zona Este</option>
+                            <option value="oeste">Zona Oeste</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="businesses-container" class="business-grid">
+                <!-- Los negocios se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Registro -->
+    <section id="registro">
+        <div class="container">
+            <h2>Crear Cuenta</h2>
+            <div id="register-message"></div>
+            <div class="form-container">
+                <div class="form-options">
+                    <div class="form-option selected" id="register-user-option">
+                        <input type="radio" id="register-type-user" name="register-type" value="user" checked>
+                        <label for="register-type-user">Usuario</label>
+                    </div>
+                    <div class="form-option" id="register-business-option">
+                        <input type="radio" id="register-type-business" name="register-type" value="business">
+                        <label for="register-type-business">Negocio</label>
+                    </div>
+                </div>
+                
+                <!-- Formulario de Usuario -->
+                <form id="user-form" class="register-form active">
+                    <div class="form-group">
+                        <label for="user-name">Nombre Completo</label>
+                        <input type="text" id="user-name" name="user-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-email">Email</label>
+                        <input type="email" id="user-email" name="user-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-phone">Teléfono</label>
+                        <input type="tel" id="user-phone" name="user-phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="user-password">Contraseña</label>
+                        <input type="password" id="user-password" name="user-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Crear Cuenta de Usuario</button>
+                </form>
+                
+                <!-- Formulario de Negocio -->
+                <form id="business-form" class="register-form">
+                    <div class="form-group">
+                        <label for="business-name">Nombre del Negocio</label>
+                        <input type="text" id="business-name" name="business-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-type">Tipo de Negocio</label>
+                        <select id="business-type" name="business-type" required>
+                            <option value="">Selecciona una categoría</option>
+                            <option value="restaurante">Restaurante</option>
+                            <option value="cafe">Cafetería</option>
+                            <option value="tienda">Tienda</option>
+                            <option value="servicio">Servicio</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-address">Dirección</label>
+                        <input type="text" id="business-address" name="business-address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-phone">Teléfono</label>
+                        <input type="tel" id="business-phone" name="business-phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-email">Email</label>
+                        <input type="email" id="business-email" name="business-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-description">Descripción del Negocio</label>
+                        <textarea id="business-description" name="business-description" placeholder="Describe tu negocio, servicios, horarios, etc..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-image">Imagen del Negocio (Opcional)</label>
+                        <input type="file" id="business-image" name="business-image" accept="image/*" class="file-input">
+                        <div class="image-preview" id="business-image-preview"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-password">Contraseña</label>
+                        <input type="password" id="business-password" name="business-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Registrar Negocio</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login -->
+    <section id="login" style="background-color: #f8f9fa;">
+        <div class="container">
+            <h2>Iniciar Sesión</h2>
+            <div id="login-message"></div>
+            <div class="form-container">
+                <div class="form-options">
+                    <div class="form-option selected" id="login-user-option">
+                        <input type="radio" id="login-type-user" name="login-type" value="user" checked>
+                        <label for="login-type-user">Usuario</label>
+                    </div>
+                    <div class="form-option" id="login-business-option">
+                        <input type="radio" id="login-type-business" name="login-type" value="business">
+                        <label for="login-type-business">Negocio</label>
+                    </div>
+                </div>
+                
+                <form id="login-form" class="login-form active">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" name="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" name="login-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Iniciar Sesión</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Promofy</h3>
+                    <p>La plataforma líder para promocionar negocios locales en Los Mochis, Sinaloa.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#negocios">Negocios</a></li>
+                        <li><a href="#registro">Registrarse</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <ul>
+                        <li>Email: promofy@gmail.com</li>
+                        <li>Teléfono: 6681686940</li>
+                        <li>Los Mochis, Sinaloa</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Promofy. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // =============================================
+        // SISTEMA DE ALMACENAMIENTO LOCAL (LOCALSTORAGE)
+        // =============================================
+
+        // Inicializar datos si no existen
+        function initializeData() {
+            if (!localStorage.getItem('promofy_usuarios')) {
+                localStorage.setItem('promofy_usuarios', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('promofy_negocios')) {
+                localStorage.setItem('promofy_negocios', JSON.stringify([]));
+            }
+        }
+
+        // Guardar usuario
+        function guardarUsuario(usuarioData) {
+            const usuarios = JSON.parse(localStorage.getItem('promofy_usuarios') || '[]');
+            
+            // Verificar si el email ya existe
+            const emailExiste = usuarios.some(user => user.email === usuarioData.email);
+            if (emailExiste) {
+                return { success: false, message: 'El email ya está registrado' };
+            }
+
+            // Agregar ID y fecha
+            usuarioData.id = Date.now();
+            usuarioData.fechaRegistro = new Date().toISOString();
+            usuarioData.tipo = 'usuario';
+
+            usuarios.push(usuarioData);
+            localStorage.setItem('promofy_usuarios', JSON.stringify(usuarios));
+            
+            return { success: true, message: 'Usuario registrado exitosamente', id: usuarioData.id };
+        }
+
+        // Guardar negocio
+        function guardarNegocio(negocioData) {
+            const negocios = JSON.parse(localStorage.getItem('promofy_negocios') || '[]');
+            
+            // Verificar si el email ya existe
+            const emailExiste = negocios.some(business => business.email === negocioData.email);
+            if (emailExiste) {
+                return { success: false, message: 'El email ya está registrado' };
+            }
+
+            // Agregar ID y fecha
+            negocioData.id = Date.now();
+            negocioData.fechaRegistro = new Date().toISOString();
+            negocioData.tipo = 'negocio';
+            negocioData.ciudad = 'Los Mochis';
+            negocioData.estado = 'Sinaloa';
+
+            // Si no hay imagen, usar una por defecto
+            if (!negocioData.imagen) {
+                negocioData.imagen = getDefaultBusinessImage(negocioData.tipo_negocio);
+            }
+
+            negocios.push(negocioData);
+            localStorage.setItem('promofy_negocios', JSON.stringify(negocios));
+            
+            return { success: true, message: 'Negocio registrado exitosamente', id: negocioData.id };
+        }
+
+        // Obtener imagen por defecto según el tipo de negocio
+        function getDefaultBusinessImage(tipo) {
+            const images = {
+                restaurante: '🍽️',
+                cafe: '☕',
+                tienda: '🛍️',
+                servicio: '🔧'
+            };
+            return images[tipo] || '🏢';
+        }
+
+        // Convertir imagen a Base64
+        function imageToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // Login
+        function loginUsuario(email, password, tipo) {
+            let datos;
+            if (tipo === 'user') {
+                datos = JSON.parse(localStorage.getItem('promofy_usuarios') || '[]');
+            } else {
+                datos = JSON.parse(localStorage.getItem('promofy_negocios') || '[]');
+            }
+
+            const usuario = datos.find(item => item.email === email && item.password === password);
+            
+            if (usuario) {
+                return { 
+                    success: true, 
+                    message: 'Login exitoso',
+                    user: {
+                        id: usuario.id,
+                        nombre: tipo === 'user' ? usuario.nombre : usuario.nombre_negocio,
+                        email: usuario.email,
+                        tipo: tipo
+                    }
+                };
+            } else {
+                return { success: false, message: 'Email o contraseña incorrectos' };
+            }
+        }
+
+        // Obtener todos los negocios
+        function obtenerNegocios() {
+            return JSON.parse(localStorage.getItem('promofy_negocios') || '[]');
+        }
+
+        // =============================================
+        // INTERFAZ Y FUNCIONALIDADES
+        // =============================================
+
+        let currentUser = null;
+
+        // Función para mostrar mensajes
+        function showMessage(message, type, elementId = 'register-message') {
+            const messageDiv = document.getElementById(elementId);
+            messageDiv.innerHTML = `<div class="message ${type}">${message}</div>`;
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        // Sistema de Login
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const loginData = {
+                email: document.getElementById('login-email').value,
+                password: document.getElementById('login-password').value,
+                tipo: document.querySelector('input[name="login-type"]:checked').value
+            };
+
+            const resultado = loginUsuario(loginData.email, loginData.password, loginData.tipo);
+            
+            if (resultado.success) {
+                currentUser = resultado.user;
+                // Guardar sesión en localStorage
+                localStorage.setItem('promofy_current_user', JSON.stringify(currentUser));
+                showMessage('✅ ¡Bienvenido! Sesión iniciada correctamente', 'success', 'login-message');
+                updateUIAfterLogin();
+                showBusinessPanel();
+                this.reset();
+            } else {
+                showMessage('❌ ' + resultado.message, 'error', 'login-message');
+            }
+        });
+
+        // Verificar si hay sesión activa al cargar la página
+        function checkExistingSession() {
+            const savedUser = localStorage.getItem('promofy_current_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                updateUIAfterLogin();
+            }
+        }
+
+        // Actualizar UI después del login
+        function updateUIAfterLogin() {
+            document.getElementById('auth-buttons').style.display = 'none';
+            document.getElementById('user-info').style.display = 'flex';
+            document.getElementById('user-name-display').textContent = currentUser.nombre;
+            document.getElementById('user-avatar').textContent = currentUser.nombre.charAt(0).toUpperCase();
+            
+            // Ocultar enlaces de registro e inicio de sesión del nav
+            document.querySelectorAll('.register-link, .login-link').forEach(link => {
+                link.style.display = 'none';
+            });
+        }
+
+        // Cerrar sesión
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('promofy_current_user');
+            document.getElementById('auth-buttons').style.display = 'flex';
+            document.getElementById('user-info').style.display = 'none';
+            
+            // Mostrar enlaces de registro nuevamente
+            document.querySelectorAll('.register-link, .login-link').forEach(link => {
+                link.style.display = 'block';
+            });
+            
+            showMessage('✅ Sesión cerrada correctamente', 'success');
+        }
+
+        // Mostrar panel de negocios
+        function showBusinessPanel() {
+            document.querySelector('.business-panel').classList.add('active');
+            loadBusinesses();
+        }
+
+        // Cargar negocios desde localStorage
+        function loadBusinesses() {
+            const negocios = obtenerNegocios();
+            displayBusinesses(negocios);
+        }
+
+        // Mostrar negocios en la grid
+        function displayBusinesses(businesses) {
+            const container = document.getElementById('businesses-container');
+            
+            if (businesses.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                        <h3>No hay negocios registrados todavía</h3>
+                        <p>Sé el primero en registrar tu negocio en Los Mochis</p>
+                        <a href="#registro" class="btn btn-primary">Registrar Negocio</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+
+            businesses.forEach(business => {
+                const hasCustomImage = business.imagen && business.imagen.startsWith('data:image');
+                const businessCard = `
+                    <div class="business-card">
+                        <div class="business-image ${!hasCustomImage ? 'default' : ''}" 
+                             style="${hasCustomImage ? `background-image: url('${business.imagen}')` : ''}">
+                            ${!hasCustomImage ? business.imagen : ''}
+                        </div>
+                        <div class="business-info">
+                            <h3>${business.nombre_negocio}</h3>
+                            <span class="business-type">${getBusinessTypeName(business.tipo_negocio)}</span>
+                            <p class="business-description">${business.descripcion || 'Sin descripción disponible'}</p>
+                            <p class="business-address">📍 ${business.direccion}</p>
+                            <div class="business-contact">
+                                <span>📞 ${business.telefono}</span>
+                                <button class="btn btn-outline btn-sm" onclick="contactBusiness('${business.nombre_negocio}', '${business.telefono}', '${business.email}')">Contactar</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += businessCard;
+            });
+        }
+
+        // Nombres de tipos de negocio
+        function getBusinessTypeName(type) {
+            const names = {
+                restaurante: 'Restaurante',
+                cafe: 'Cafetería',
+                tienda: 'Tienda',
+                servicio: 'Servicio'
+            };
+            return names[type] || 'Negocio';
+        }
+
+        // Buscar negocios
+        function searchBusinesses() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const category = document.getElementById('category-filter').value;
+            const location = document.getElementById('location-filter').value;
+            
+            let negocios = obtenerNegocios();
+            
+            // Aplicar filtros
+            if (searchTerm) {
+                negocios = negocios.filter(business => 
+                    business.nombre_negocio.toLowerCase().includes(searchTerm) ||
+                    business.tipo_negocio.toLowerCase().includes(searchTerm) ||
+                    business.direccion.toLowerCase().includes(searchTerm) ||
+                    (business.descripcion && business.descripcion.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            if (category) {
+                negocios = negocios.filter(business => business.tipo_negocio === category);
+            }
+            
+            if (location) {
+                negocios = negocios.filter(business => 
+                    business.direccion.toLowerCase().includes(location)
+                );
+            }
+            
+            displayBusinesses(negocios);
+            showMessage(`Se encontraron ${negocios.length} negocios`, 'success');
+        }
+
+        // Contactar negocio
+        function contactBusiness(businessName, phone, email) {
+            if (!currentUser) {
+                showMessage('⚠️ Debes iniciar sesión para contactar negocios', 'error');
+                return;
+            }
+            
+            const mensaje = `
+Contactando a: ${businessName}
+
+📞 Teléfono: ${phone}
+✉️ Email: ${email}
+
+Puedes contactarlos directamente por estos medios.
+
+Próximamente: Sistema de mensajes integrado en Promofy
+            `;
+            alert(mensaje);
+        }
+
+        // Preview de imagen
+        document.getElementById('business-image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('business-image-preview');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Vista previa">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = '';
+            }
+        });
+
+        // Manejar formulario de usuario
+        document.getElementById('user-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            showMessage('Registrando usuario...', 'loading');
+
+            const userData = {
+                nombre: document.getElementById('user-name').value,
+                email: document.getElementById('user-email').value,
+                telefono: document.getElementById('user-phone').value,
+                password: document.getElementById('user-password').value
+            };
+
+            const resultado = guardarUsuario(userData);
+            
+            if (resultado.success) {
+                showMessage('✅ Usuario registrado exitosamente!', 'success');
+                this.reset();
+            } else {
+                showMessage('❌ ' + resultado.message, 'error');
+            }
+        });
+
+        // Manejar formulario de negocio
+        document.getElementById('business-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            showMessage('Registrando negocio...', 'loading');
+
+            const businessData = {
+                nombre_negocio: document.getElementById('business-name').value,
+                tipo_negocio: document.getElementById('business-type').value,
+                direccion: document.getElementById('business-address').value,
+                telefono: document.getElementById('business-phone').value,
+                email: document.getElementById('business-email').value,
+                descripcion: document.getElementById('business-description').value,
+                password: document.getElementById('business-password').value
+            };
+
+            // Procesar imagen si existe
+            const imageInput = document.getElementById('business-image');
+            if (imageInput.files[0]) {
+                try {
+                    businessData.imagen = await imageToBase64(imageInput.files[0]);
+                } catch (error) {
+                    console.error('Error procesando imagen:', error);
+                }
+            }
+
+            const resultado = guardarNegocio(businessData);
+            
+            if (resultado.success) {
+                showMessage('✅ Negocio registrado exitosamente!', 'success');
+                this.reset();
+                document.getElementById('business-image-preview').innerHTML = '';
+            } else {
+                showMessage('❌ ' + resultado.message, 'error');
+            }
+        });
+
+        // JavaScript para cambiar entre formularios
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar datos
+            initializeData();
+            checkExistingSession();
+
+            // Registro
+            const registerUserOption = document.getElementById('register-user-option');
+            const registerBusinessOption = document.getElementById('register-business-option');
+            const userForm = document.getElementById('user-form');
+            const businessForm = document.getElementById('business-form');
+            
+            registerUserOption.addEventListener('click', function() {
+                registerUserOption.classList.add('selected');
+                registerBusinessOption.classList.remove('selected');
+                userForm.classList.add('active');
+                businessForm.classList.remove('active');
+            });
+            
+            registerBusinessOption.addEventListener('click', function() {
+                registerBusinessOption.classList.add('selected');
+                registerUserOption.classList.remove('selected');
+                businessForm.classList.add('active');
+                userForm.classList.remove('active');
+            });
+
+            // Login
+            const loginUserOption = document.getElementById('login-user-option');
+            const loginBusinessOption = document.getElementById('login-business-option');
+            
+            loginUserOption.addEventListener('click', function() {
+                loginUserOption.classList.add('selected');
+                loginBusinessOption.classList.remove('selected');
+            });
+            
+            loginBusinessOption.addEventListener('click', function() {
+                loginBusinessOption.classList.add('selected');
+                loginUserOption.classList.remove('selected');
+            });
+
+            // Cargar negocios al hacer clic en el enlace
+            document.querySelector('.business-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentUser) {
+                    showBusinessPanel();
+                } else {
+                    showMessage('⚠️ Debes iniciar sesión para ver los negocios', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
