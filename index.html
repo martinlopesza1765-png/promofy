@@ -62,16 +62,11 @@
             color: var(--primary);
         }
 
-        .nav-section {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
         .nav-links {
             display: flex;
             gap: 25px;
             list-style: none;
+            margin-left: 40px;
         }
 
         .nav-links a {
@@ -84,6 +79,12 @@
 
         .nav-links a:hover {
             color: var(--primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .auth-buttons {
@@ -511,14 +512,15 @@
                 gap: 15px;
             }
             
-            .nav-section {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
             .nav-links {
+                margin-left: 0;
                 flex-wrap: wrap;
                 justify-content: center;
+            }
+            
+            .header-right {
+                flex-direction: column;
+                gap: 10px;
             }
             
             .hero .container {
@@ -532,10 +534,6 @@
             .footer-content {
                 flex-direction: column;
                 gap: 30px;
-            }
-            
-            .auth-buttons {
-                margin-top: 15px;
             }
             
             .search-bar {
@@ -554,7 +552,7 @@
         <nav class="navbar">
             <div class="container">
                 <!-- Logo y Navegación a la izquierda -->
-                <div class="nav-section">
+                <div style="display: flex; align-items: center;">
                     <div class="logo">
                         <h1>Promofy</h1>
                     </div>
@@ -566,7 +564,7 @@
                 </div>
 
                 <!-- Botones de Auth a la derecha -->
-                <div class="nav-section">
+                <div class="header-right">
                     <div class="auth-buttons" id="auth-buttons">
                         <a href="#login" class="btn btn-outline">Iniciar Sesión</a>
                         <a href="#registro" class="btn btn-primary">Registrarse</a>
@@ -773,14 +771,14 @@
                 <div class="footer-column">
                     <h3>Contacto</h3>
                     <ul>
-                        <li>Email: promofy@gmail.com</li>
-                        <li>Teléfono: 6681686940</li>
+                        <li>Email: info@promofy.com</li>
+                        <li>Teléfono: (668) 123-4567</li>
                         <li>Los Mochis, Sinaloa</li>
                     </ul>
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 Promofy. Todos los derechos reservados.</p>
+                <p>&copy; 2023 Promofy. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
@@ -953,13 +951,16 @@
 
         // Actualizar UI después del login
         function updateUIAfterLogin() {
+            // Ocultar botones de auth
             document.getElementById('auth-buttons').style.display = 'none';
+            
+            // Mostrar información del usuario
             document.getElementById('user-info').style.display = 'flex';
             document.getElementById('user-name-display').textContent = currentUser.nombre;
             document.getElementById('user-avatar').textContent = currentUser.nombre.charAt(0).toUpperCase();
             
-            // Ocultar enlaces de registro e inicio de sesión del nav
-            document.querySelectorAll('.register-link, .login-link').forEach(link => {
+            // Ocultar enlaces de registro del nav
+            document.querySelectorAll('.register-link').forEach(link => {
                 link.style.display = 'none';
             });
         }
@@ -968,11 +969,15 @@
         function logout() {
             currentUser = null;
             localStorage.removeItem('promofy_current_user');
+            
+            // Mostrar botones de auth
             document.getElementById('auth-buttons').style.display = 'flex';
+            
+            // Ocultar información del usuario
             document.getElementById('user-info').style.display = 'none';
             
             // Mostrar enlaces de registro nuevamente
-            document.querySelectorAll('.register-link, .login-link').forEach(link => {
+            document.querySelectorAll('.register-link').forEach(link => {
                 link.style.display = 'block';
             });
             
@@ -1103,124 +1108,4 @@ Próximamente: Sistema de mensajes integrado en Promofy
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    preview.innerHTML = `<img src="${e.target.result}" alt="Vista previa">`;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                preview.innerHTML = '';
-            }
-        });
-
-        // Manejar formulario de usuario
-        document.getElementById('user-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            showMessage('Registrando usuario...', 'loading');
-
-            const userData = {
-                nombre: document.getElementById('user-name').value,
-                email: document.getElementById('user-email').value,
-                telefono: document.getElementById('user-phone').value,
-                password: document.getElementById('user-password').value
-            };
-
-            const resultado = guardarUsuario(userData);
-            
-            if (resultado.success) {
-                showMessage('✅ Usuario registrado exitosamente!', 'success');
-                this.reset();
-            } else {
-                showMessage('❌ ' + resultado.message, 'error');
-            }
-        });
-
-        // Manejar formulario de negocio
-        document.getElementById('business-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            showMessage('Registrando negocio...', 'loading');
-
-            const businessData = {
-                nombre_negocio: document.getElementById('business-name').value,
-                tipo_negocio: document.getElementById('business-type').value,
-                direccion: document.getElementById('business-address').value,
-                telefono: document.getElementById('business-phone').value,
-                email: document.getElementById('business-email').value,
-                descripcion: document.getElementById('business-description').value,
-                password: document.getElementById('business-password').value
-            };
-
-            // Procesar imagen si existe
-            const imageInput = document.getElementById('business-image');
-            if (imageInput.files[0]) {
-                try {
-                    businessData.imagen = await imageToBase64(imageInput.files[0]);
-                } catch (error) {
-                    console.error('Error procesando imagen:', error);
-                }
-            }
-
-            const resultado = guardarNegocio(businessData);
-            
-            if (resultado.success) {
-                showMessage('✅ Negocio registrado exitosamente!', 'success');
-                this.reset();
-                document.getElementById('business-image-preview').innerHTML = '';
-            } else {
-                showMessage('❌ ' + resultado.message, 'error');
-            }
-        });
-
-        // JavaScript para cambiar entre formularios
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar datos
-            initializeData();
-            checkExistingSession();
-
-            // Registro
-            const registerUserOption = document.getElementById('register-user-option');
-            const registerBusinessOption = document.getElementById('register-business-option');
-            const userForm = document.getElementById('user-form');
-            const businessForm = document.getElementById('business-form');
-            
-            registerUserOption.addEventListener('click', function() {
-                registerUserOption.classList.add('selected');
-                registerBusinessOption.classList.remove('selected');
-                userForm.classList.add('active');
-                businessForm.classList.remove('active');
-            });
-            
-            registerBusinessOption.addEventListener('click', function() {
-                registerBusinessOption.classList.add('selected');
-                registerUserOption.classList.remove('selected');
-                businessForm.classList.add('active');
-                userForm.classList.remove('active');
-            });
-
-            // Login
-            const loginUserOption = document.getElementById('login-user-option');
-            const loginBusinessOption = document.getElementById('login-business-option');
-            
-            loginUserOption.addEventListener('click', function() {
-                loginUserOption.classList.add('selected');
-                loginBusinessOption.classList.remove('selected');
-            });
-            
-            loginBusinessOption.addEventListener('click', function() {
-                loginBusinessOption.classList.add('selected');
-                loginUserOption.classList.remove('selected');
-            });
-
-            // Cargar negocios al hacer clic en el enlace
-            document.querySelector('.business-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                if (currentUser) {
-                    showBusinessPanel();
-                } else {
-                    showMessage('⚠️ Debes iniciar sesión para ver los negocios', 'error');
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                    preview.innerHTML = `<img src="${e.target.result}"
